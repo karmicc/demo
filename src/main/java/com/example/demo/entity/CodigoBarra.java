@@ -4,18 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "codigobarra")
 public class CodigoBarra {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.AUTO) // automatically generated primary key.
     @Column(name = "idcodigobarra")
     private Integer idcodigobarra;
     @Column(name = "codigo")

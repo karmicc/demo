@@ -1,12 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Categoria;
+import com.example.demo.entity.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.service.DemoDataService;
+
 
 import java.util.List;
 
@@ -17,35 +17,65 @@ public class DemoDataController {
     @Autowired
     private final DemoDataService demoDataService;
 
-    @PostMapping(path="/categoria/add", consumes = "application/json") // Map ONLY POST Requests
-    public ResponseEntity<String> addNewCat(@RequestBody Categoria c )
-            /*(@RequestParam(name = "codigo") String codigo
-            , @RequestParam(name = "descripcion") String descripcion
-            , @RequestParam(name = "activo") String activo)*/ {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
-
-        //Categoria c = new Categoria();
-        //c.setCodigo(codigo);
-        //c.setDescripcion(descripcion);
-        //c.setActivo(Boolean.parseBoolean(activo));
-        demoDataService.saveCategoria(c);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @RequestMapping(value="/categoria/add", method = RequestMethod.POST) // Map ONLY POST Requests
+    public ResponseEntity<?> saveCategoria(@RequestBody CategoriaDTO c ) throws Exception {
+        return ResponseEntity.ok(demoDataService.saveCategoria(c));
     }
-
-    @PostMapping(value = "/cat/add")
-    public Categoria addCategoria(@RequestBody Categoria categoria) {
-        demoDataService.saveCategoria(categoria);
-        return categoria;
-    }
-
     @GetMapping(value = "/categoria/all")
-    public List<Categoria> getAll(){
+    public List<Categoria> getAllCategoria(){
         return demoDataService.findAllCategoria();
     }
     @GetMapping(value = "/categoria/byCodigo/{codigo}")
-    public List<Categoria> getBycodigo(@PathVariable(name = "codigo") String codigo){
+    public Categoria getBycodigo(@PathVariable(name = "codigo") String codigo){
         return demoDataService.findByCodigo(codigo);
+    }
+    @RequestMapping(value = "/categoria/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
+    public String deleteCategoria(@PathVariable Integer id){
+        return demoDataService.deleteCategoria(id);
+    }
+    @RequestMapping(value = "/categoria/update", method = RequestMethod.PUT, produces = "application/json")
+    public String updateCategoria(CategoriaDTO categoriaDTO) {
+        return demoDataService.updateCategoria(categoriaDTO);
+    }
+    @RequestMapping(value="/codigo_barra/add", method = RequestMethod.POST) // Map ONLY POST Requests
+    public ResponseEntity<?> saveCodigoBarra(@RequestBody CodigoBarraDTO c ) throws Exception {
+        return ResponseEntity.ok(demoDataService.saveCodigoBarra(c));
+    }
+    @GetMapping(value = "/codigo_barra/all")
+    public List<CodigoBarra> getAllCodigoBarra(){
+        return demoDataService.findAllCodigoBarra();
+    }
+    @GetMapping(value = "/codigo_barra/byCodigo/{codigo}")
+    public List<CodigoBarra> getCodigoBarraBycodigo(@PathVariable(name = "codigo") String codigo){
+        return demoDataService.findByCodigoBarraCodigo(codigo);
+    }
+    @RequestMapping(value = "/codigo_barra/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
+    public String deleteCodigoBarra(@PathVariable Integer id){
+        return demoDataService.deleteCodigoBarra(id);
+    }
+    @RequestMapping(value = "/codigo_barra/update", method = RequestMethod.PUT, produces = "application/json")
+    public String updateCodigoBarra(CodigoBarraDTO codigoBarraDTO) {
+        return demoDataService.updateCodigoBarra(codigoBarraDTO);
+    }
+    @RequestMapping(value="/producto/add", method = RequestMethod.POST) // Map ONLY POST Requests
+    public ResponseEntity<?> saveProducto(@RequestBody Producto producto ) throws Exception {
+        return ResponseEntity.ok(demoDataService.saveProducto(producto));
+    }
+    @GetMapping(value = "/producto/byCodigo/{codigo}")
+    public ProductoDTO getByProductoCodigo(@PathVariable(name = "codigo") String codigo){
+        return demoDataService.findByProductoCodigo(codigo);
+    }
+    @GetMapping(value = "/producto/all")
+    public List<Producto> getAllProducto(){
+        return demoDataService.findAllProducto();
+    }
+    @RequestMapping(value = "/producto/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
+    public String deleteProducto(@PathVariable Integer id){
+        return demoDataService.deleteProducto(id);
+    }
+    @RequestMapping(value = "/producto/update", method = RequestMethod.PUT, produces = "application/json")
+    public String updateProducto(Producto producto) {
+        return demoDataService.updateProducto(producto);
     }
 
 }

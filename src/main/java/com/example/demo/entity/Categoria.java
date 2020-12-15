@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity // This tells Hibernate to make a table out of this class
 public class Categoria {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO) // automatically generated primary key.
     @Column(name = "idcategoria")
     private Integer idcategoria;
     @Column(name = "codigo")
